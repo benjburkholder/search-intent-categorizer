@@ -1,10 +1,9 @@
 """
-This program will categorize queries by what SERP features are present for the query.
-This will be achieved via a variety of If statements.
-
+This program ategorizes queries by what SERP features are present for the query.
 ~ Informational
 ~ Navigational
 ~ Transactional
+~ Commercial Investigation
 """
 
 from lib.google_search_results import GoogleSearchResults
@@ -21,7 +20,7 @@ with open('serp_intent_urls.txt') as content:
     content = [line.rstrip('\n') for line in content]
     content = [line.split(",") for line in content]
 
-# If user location can remain static, location can be hardcoded with a location.
+# If user location can remain static, location field can be hardcoded with a specific location.
     for line in content:
         params = {
             "q": str(line[0]),
