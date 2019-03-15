@@ -1,5 +1,5 @@
 """
-This program ategorizes queries by what SERP features are present for the query.
+This program categorizes queries by what SERP features are present for the query.
 ~ Informational
 ~ Navigational
 ~ Transactional
@@ -13,10 +13,10 @@ api_key = open('serp-api-key.txt').read()
 downloadFile = 'serp-intent-results.csv'
 file = open(downloadFile, 'w')
 
-columnHead = 'Query,Search Intent Type\n'
+columnHead = 'Query,Search Intent Type,Paid Ad Companies,Top 5 Organic Results\n'
 file.write(columnHead)
 
-with open('serp_intent_urls.txt') as content:
+with open('serp_intent_queries.txt') as content:
     content = [line.rstrip('\n') for line in content]
     content = [line.split(",") for line in content]
 
@@ -36,6 +36,12 @@ with open('serp_intent_urls.txt') as content:
         finalquery = "{} {} {}".format(line[0], line[1], line[2])
 
     # Information Search Intent
+        serpURLs = []
+        orgRes = dictionary_results['organic_results']
+        for url in orgRes:
+            if url['position'] <= 5:
+                serpURLs.append(url['link'])
+                print(url['link'])
         try:
             answerbox = dictionary_results['answer_box']
             paa = dictionary_results['related_questions']
@@ -43,8 +49,7 @@ with open('serp_intent_urls.txt') as content:
             print('Not Informational Intent')
         else:
             print(f'{finalquery}, Information Search Intent')
-            file.write(f'{finalquery}, Information Search Intent\n')
-
+            file.write(f'{finalquery}, Information Search Intent, ,"{serpURLs}"\n')
 
     # Navigational Search Intent
         try:
@@ -54,7 +59,7 @@ with open('serp_intent_urls.txt') as content:
             print('Not Navigational Search Intent')
         else:
             print(f'{finalquery}, Navigational Search Intent')
-            file.write(f'{finalquery}, Navigational Search Intent\n')
+            file.write(f'{finalquery}, Navigational Search Intent, ,"{serpURLs}"\n')
 
     # Transactional
         try:
@@ -63,7 +68,21 @@ with open('serp_intent_urls.txt') as content:
             print('Not Transactional Intent')
         else:
             print(f'{finalquery}, Transactional Search Intent')
-            file.write(f'{finalquery}, Transactional Search Intent\n')
+            file.write(f'{finalquery}, Transactional Search Intent, ,"{serpURLs}"\n')
+
+    # Paid Ads Present
+        try:
+            paid_ads = dictionary_results['ads']
+        except (KeyError, NameError):
+            print('No Paid Ads Present')
+        else:
+            competitors = []
+            for data in paid_ads:
+                competitors.append(str(data['link']))
+            row = f'{finalquery}, Paid Search Ads Present,"{competitors}"\n)'
+            print(row)
+
+            file.write(row)
 
     # Commercial Investigation
         results = []
@@ -84,13 +103,6 @@ with open('serp_intent_urls.txt') as content:
         else:
             if bottom_ads != '':
                 print(f'{finalquery}, Commercial Investigation')
-                file.write(f'{finalquery}, Commercial Investigation\n')
+                file.write(f'{finalquery}, Commercial Investigation, ,"{serpURLs}"\n')
 
 file.close()
-
-
-
-
-
-
-
