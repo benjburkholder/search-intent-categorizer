@@ -5,7 +5,6 @@ This program categorizes queries by what SERP features are present for the query
 ~ Transactional
 ~ Commercial Investigation
 """
-
 from lib.google_search_results import GoogleSearchResults
 
 api_key = open('serp-api-key.txt').read()
