@@ -32,7 +32,7 @@ with open('serp_intent_queries.txt') as content:
 
         query = GoogleSearchResults(params)
         dictionary_results = query.get_dictionary()
-        finalquery = "{} {} {}".format(line[0], line[1], line[2])
+        finalquery = "{} {} {}".format(line[0], line[1], line[2])  # Location in API query is dynamic
 
     # Information Search Intent
         serpURLs = []
