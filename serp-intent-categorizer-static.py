@@ -23,7 +23,7 @@ with open('serp_intent_queries.txt') as content:
     for line in content:
         params = {
             "q": str(line),
-            "location": "cleveland,ohio,United States",
+            "location": "cleveland,ohio,United States",  # Location used in API query is static
             "hl": "en",
             "gl": "us",
             "google_domain": "google.com",
