@@ -7,6 +7,8 @@ serp-intent-categorizer.py ~ This is the SERP intent module that can have a cust
 Queries placed in 'serp_intent_urls.text' must be in the format: query,city,state. The city and state values are then
 stripped and implemented into the location field in query params.
 
+----------------------------------
+
 Program Summary:
 These scripts read a list of queries from a TXT file, depending on which module you choose above will determine how you
 structure the queries to run. 
