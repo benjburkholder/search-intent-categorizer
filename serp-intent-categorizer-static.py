@@ -7,6 +7,9 @@ This program categorizes queries by what SERP features are present for the query
 """
 
 from lib.google_search_results import GoogleSearchResults
+import time
+
+startTime = time.time()
 
 api_key = open('serp-api-key.txt').read()
 
@@ -46,8 +49,8 @@ with open('serp_intent_queries.txt') as content:
         except KeyError:
             print('Not Informational Intent')
         else:
-            print(f'{line}, Information Search Intent')
-            file.write(f'{line}, Information Search Intent, ,"{serpURLs}"\n')
+            print(f'{line}, Information Search Intent, ,"{serpURLs}"')
+            file.write(f'"{line}", Information Search Intent, ,"{serpURLs}"\n')
 
     # Navigational Search Intent
         try:
@@ -57,7 +60,7 @@ with open('serp_intent_queries.txt') as content:
             print('Not Navigational Search Intent')
         else:
             print(f'{line}, Navigational Search Intent')
-            file.write(f'{line}, Navigational Search Intent, ,"{serpURLs}"\n')
+            file.write(f'"{line}", Navigational Search Intent, ,"{serpURLs}"\n')
 
     # Transactional
         try:
@@ -65,8 +68,8 @@ with open('serp_intent_queries.txt') as content:
         except KeyError:
             print('Not Transactional Intent')
         else:
-            print(f'{line}, Transactional Search Intent')
-            file.write(f'{line}, Transactional Search Intent, ,"{serpURLs}"\n')
+            print(f'{line}, Transactional Search Intent, ,"{serpURLs}"')
+            file.write(f'"{line}", Transactional Search Intent, ,"{serpURLs}"\n')
 
     # Paid Ads Present
         try:
@@ -77,7 +80,7 @@ with open('serp_intent_queries.txt') as content:
             competitors = []
             for data in paid_ads:
                 competitors.append(str(data['link']))
-            row = f'{line}, Paid Search Ads Present,"{competitors}"\n)'
+            row = f'"{line}", Paid Search Ads Present,"{competitors}"\n'
             print(row)
 
             file.write(row)
@@ -100,7 +103,17 @@ with open('serp_intent_queries.txt') as content:
             print('Not Commercial Investigation Intent')
         else:
             if bottom_ads != '':
-                print(f'{line}, Commercial Investigation')
-                file.write(f'{line}, Commercial Investigation, ,"{serpURLs}"\n')
+                print(f'{line}, Commercial Investigation, ,"{serpURLs}"')
+                file.write(f'"{line}", Commercial Investigation, ,"{serpURLs}"\n')
 
 file.close()
+
+# This portion calculates the total time the script took to run.
+endTime = time.time()
+
+timeSpent = endTime - startTime
+
+if timeSpent > 60:
+    print(f'{round(timeSpent) / 60} Minute(s)')
+else:
+    print(f'{round(timeSpent)} Second(s)')
