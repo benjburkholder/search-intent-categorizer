@@ -24,6 +24,7 @@ with open('serp_intent_queries.txt') as content:
 
 # If user location can remain static, location field can be hardcoded with a specific location.
     for line in content:
+        print(f'Analyzing {line}...')
         params = {
             "q": str(line),
             "location": "cleveland,ohio,United States",  # Location used in API query is static
@@ -42,12 +43,12 @@ with open('serp_intent_queries.txt') as content:
         for url in orgRes:
             if url['position'] <= 5:
                 serpURLs.append(url['link'])
-                print(url['link'])
+                # print(url['link'])
         try:
             answerbox = dictionary_results['answer_box']
             paa = dictionary_results['related_questions']
         except KeyError:
-            print('Not Informational Intent')
+            pass
         else:
             print(f'{line}, Information Search Intent, ,"{serpURLs}"')
             file.write(f'"{line}", Information Search Intent, ,"{serpURLs}"\n')
@@ -57,7 +58,7 @@ with open('serp_intent_queries.txt') as content:
             knowledge_graph = dictionary_results['knowledge_graph']
             site_links = dictionary_results['organic_results'][0]['sitelinks']
         except KeyError:
-            print('Not Navigational Search Intent')
+            pass
         else:
             print(f'{line}, Navigational Search Intent')
             file.write(f'"{line}", Navigational Search Intent, ,"{serpURLs}"\n')
@@ -66,7 +67,7 @@ with open('serp_intent_queries.txt') as content:
         try:
             shopping_ads = dictionary_results['shopping_results']
         except KeyError:
-            print('Not Transactional Intent')
+            pass
         else:
             print(f'{line}, Transactional Search Intent, ,"{serpURLs}"')
             file.write(f'"{line}", Transactional Search Intent, ,"{serpURLs}"\n')
@@ -75,13 +76,13 @@ with open('serp_intent_queries.txt') as content:
         try:
             paid_ads = dictionary_results['ads']
         except (KeyError, NameError):
-            print('No Paid Ads Present')
+            pass
         else:
             competitors = []
             for data in paid_ads:
                 competitors.append(str(data['link']))
             row = f'"{line}", Paid Search Ads Present,"{competitors}"\n'
-            print(row)
+            # print(row)
 
             file.write(row)
 
@@ -100,12 +101,12 @@ with open('serp_intent_queries.txt') as content:
             if len(results) > 10:
                 bottom_ads = True
         except KeyError:
-            print('Not Commercial Investigation Intent')
+            pass
         else:
             if bottom_ads != '':
                 print(f'{line}, Commercial Investigation, ,"{serpURLs}"')
                 file.write(f'"{line}", Commercial Investigation, ,"{serpURLs}"\n')
-
+        print(f'Analyzing {line}...done.')
 file.close()
 
 # This portion calculates the total time the script took to run.
