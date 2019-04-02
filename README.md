@@ -1,4 +1,7 @@
-Modules:
+**Requirements:**
+Purchase SERPApi Key~ https://serpapi.com/
+
+**Modules:**
 
 serp-intent-categorizer-static.py ~ This is the SERP intent module that has a static location used when calling the API.
 I have it set by default to cleveland,ohio.
@@ -9,7 +12,7 @@ stripped and implemented into the location field in query params.
 
 ----------------------------------
 
-Program Summary:
+**Program Summary:**
 These scripts read a list of queries from a TXT file, depending on which module you choose above will determine how you
 structure the queries to run. 
 
