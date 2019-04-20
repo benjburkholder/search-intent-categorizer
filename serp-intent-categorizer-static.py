@@ -7,9 +7,6 @@ This program categorizes queries by what SERP features are present for the query
 """
 
 from lib.google_search_results import GoogleSearchResults
-import time
-
-startTime = time.time()
 
 api_key = open('serp-api-key.txt').read()
 
@@ -108,13 +105,3 @@ with open('serp_intent_queries.txt') as content:
                 file.write(f'"{line}", Commercial Investigation, ,"{serpURLs}"\n')
         print(f'Analyzing {line}...done.')
 file.close()
-
-# This portion calculates the total time the script took to run.
-endTime = time.time()
-
-timeSpent = endTime - startTime
-
-if timeSpent > 60:
-    print(f'{round(timeSpent) / 60} Minute(s)')
-else:
-    print(f'{round(timeSpent)} Second(s)')
